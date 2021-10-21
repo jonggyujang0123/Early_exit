@@ -6,6 +6,7 @@ import ssl
 import matplotlib.pyplot as plt
 from net.AlexNet import AlexNet
 from tqdm import tqdm
+from tools.dataloader import dataloader
 #certification error
 ssl._create_default_https_context = ssl._create_unverified_context
  
@@ -15,47 +16,16 @@ net_name = 'AlexNet'
 
 batch_size=300
 
-## DATA LOADER
-train_transform = transforms.Compose([transforms.ToTensor(), 
-                                      transforms.RandomHorizontalFlip(),
-                                      transforms.RandomVerticalFlip(),
-                                      transforms.Resize(32),
-                                      transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229,0.224,0.225])
-                                      
-                                      ])
+trainloader, testloader, num_classes = dataloader(data_name = data_name,batch_size = batch_size)
 
-
-test_transform = transforms.Compose([transforms.ToTensor(), 
-                                     transforms.Resize(32),
-                                      transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229,0.224,0.225])
-                                      ])
-
-data_train = datasets.CIFAR10(root= './DATA', train= True,
-                              download = True, transform=train_transform)
-trainloader = torch.utils.data.DataLoader(data_train, batch_size= batch_size, shuffle = True, num_workers=1)
-
-data_test = datasets.CIFAR10(root= './DATA', train= False,
-                             download = True, transform=test_transform)
-testloader = torch.utils.data.DataLoader(data_test, batch_size= batch_size, shuffle = False, num_workers=1)
-
-
-classes = ('plane', 'car', 'bird', 'cat',
-           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 ## NETWORK LOADER
 
-Net = AlexNet()
+Net = AlexNet(num_classes = num_classes)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 Net.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(Net.parameters(), lr=0.001)
-## FUNCTIONS
-
-def imshow(img):
-    img = img / 2 + 0.5     # unnormalize
-    npimg = img.numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
-    plt.show()
 
 ## MAIN FUNCTION
 

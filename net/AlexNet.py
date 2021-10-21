@@ -2,6 +2,16 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 
+
+class LeNet(nn.Module):
+    def __init__(self,num_classes=10):
+        a=0
+        
+        
+class ResNet(nn.Module):
+    def __init__(self,num_classes=10):
+        a=0
+
 class AlexNet(nn.Module):
     def __init__(self, num_classes=10):
         super(AlexNet,self).__init__()
