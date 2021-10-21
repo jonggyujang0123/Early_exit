@@ -19,7 +19,7 @@ def imshow(img):
 
 
 def dataloader(data_name, batch_size):
-    if data_name == 'CIFAR10' or 'CIFAR100':
+    if data_name == 'CIFAR10' or data_name == 'CIFAR100':
         train_transform = transforms.Compose([transforms.ToTensor(), 
                                       transforms.RandomHorizontalFlip(),
                                       transforms.RandomVerticalFlip(),
@@ -31,18 +31,20 @@ def dataloader(data_name, batch_size):
                                      transforms.Resize(32),
                                       transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229,0.224,0.225])
                                       ])
-    elif data_name == 'MNIST' or 'EMNIST':
+        in_channel = 3
+    elif data_name == 'MNIST' or data_name == 'EMNIST':
         train_transform = transforms.Compose([transforms.ToTensor(), 
                                       transforms.RandomHorizontalFlip(),
                                       transforms.RandomVerticalFlip(),
                                       transforms.Resize(32),
-                                      transforms.Normalize(mean=0.485, std = 0.225)
+                                      transforms.Normalize((0.485,), (0.225,))
                                       
                                       ])
         test_transform = transforms.Compose([transforms.ToTensor(), 
                                      transforms.Resize(32),
-                                      transforms.Normalize(mean=0.485, std = 0.225)
+                                      transforms.Normalize((0.485,), (0.225,))
                                       ])
+        in_channel =1
     if data_name == 'CIFAR10':
         data_train = datasets.CIFAR10(root= './DATA', train= True,
                                   download = True, transform=train_transform)
@@ -71,7 +73,7 @@ def dataloader(data_name, batch_size):
         raise ValueError('Choose appropriate dataset (CIFAR10, CIFAR100, MNIST, EMNIST)')
     trainloader = torch.utils.data.DataLoader(data_train, batch_size= batch_size, shuffle = True, num_workers=1)
     testloader = torch.utils.data.DataLoader(data_test, batch_size= batch_size, shuffle = False, num_workers=1)
-    return trainloader, testloader, class_num
+    return trainloader, testloader, class_num, in_channel
 
 def main():
     return

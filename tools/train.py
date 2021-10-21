@@ -24,12 +24,12 @@ net_name = args.model
 
 batch_size=300
 
-trainloader, testloader, num_classes = dataloader(data_name = data_name,batch_size = batch_size)
+trainloader, testloader, num_classes, in_channel = dataloader(data_name = data_name,batch_size = batch_size)
 
 
 ## NETWORK LOADER
 
-Net = AlexNet(num_classes = num_classes)
+Net = AlexNet(num_classes = num_classes, in_channel =in_channel)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 Net.to(device)
 criterion = nn.CrossEntropyLoss()
