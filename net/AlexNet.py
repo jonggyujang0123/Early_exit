@@ -63,9 +63,9 @@ class AlexNet(nn.Module):
         out_1 = self.classifier_1(x)
         x = self.net_part2(x)
         out_2 = self.classifier_2(x)
-        #out_3 = self.net_part3(x)
+        out_3 = self.net_part3(x)
 
-        return out_1, out_2#, out_3
+        return out_1, out_2, out_3
 
 
 
