@@ -7,12 +7,20 @@ import matplotlib.pyplot as plt
 from net.AlexNet import AlexNet
 from tqdm import tqdm
 from tools.dataloader import dataloader
+import argparse
 #certification error
 ssl._create_default_https_context = ssl._create_unverified_context
+
+parser = argparse.ArgumentParser(description = 'Options')
+parser.add_argument('--dataset',
+                   help='Choose among MNIST, CIFAR10, CIFAR100, EMNIST')
+parser.add_argument('--model',
+                   help='Choose among AlexNet, LeNet, ResNet')
+args = parser.parse_args()
  
 
-data_name = 'CIFAR10'
-net_name = 'AlexNet'
+data_name = args.dataset
+net_name = args.model
 
 batch_size=300
 
