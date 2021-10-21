@@ -19,16 +19,29 @@ def imshow(img):
 
 
 def dataloader(data_name, batch_size):
-    train_transform = transforms.Compose([transforms.ToTensor(), 
+    if data_name == 'CIFAR10' or 'CIFAR100':
+        train_transform = transforms.Compose([transforms.ToTensor(), 
                                       transforms.RandomHorizontalFlip(),
                                       transforms.RandomVerticalFlip(),
                                       transforms.Resize(32),
                                       transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229,0.224,0.225])
                                       
                                       ])
-    test_transform = transforms.Compose([transforms.ToTensor(), 
+        test_transform = transforms.Compose([transforms.ToTensor(), 
                                      transforms.Resize(32),
                                       transforms.Normalize(mean=[0.485, 0.456, 0.406], std = [0.229,0.224,0.225])
+                                      ])
+    elif data_name == 'MNIST' or 'EMNIST':
+        train_transform = transforms.Compose([transforms.ToTensor(), 
+                                      transforms.RandomHorizontalFlip(),
+                                      transforms.RandomVerticalFlip(),
+                                      transforms.Resize(32),
+                                      transforms.Normalize(mean=[0.485], std = [0.225])
+                                      
+                                      ])
+        test_transform = transforms.Compose([transforms.ToTensor(), 
+                                     transforms.Resize(32),
+                                      transforms.Normalize(mean=[0.485], std = [0.225])
                                       ])
     if data_name == 'CIFAR10':
         data_train = datasets.CIFAR10(root= './DATA', train= True,
