@@ -4,7 +4,7 @@ from torchvision import transforms, datasets
 import torch.nn as nn
 import ssl
 import matplotlib.pyplot as plt
-from net.AlexNet import AlexNet
+from net.AlexNet import AlexNet, LeNet, ResNet18
 from tqdm import tqdm
 from tools.dataloader import dataloader
 import argparse
@@ -22,14 +22,20 @@ args = parser.parse_args()
 data_name = args.dataset
 net_name = args.model
 
-batch_size=300
+batch_size=64
 
 trainloader, testloader, num_classes, in_channel = dataloader(data_name = data_name,batch_size = batch_size)
 
 
 ## NETWORK LOADER
-
-Net = AlexNet(num_classes = num_classes, in_channel =in_channel)
+if net_name == 'AlexNet':
+    Net = AlexNet(num_classes = num_classes, in_channel =in_channel)
+elif net_name == 'LeNet':
+    Net = LeNet(num_classes = num_classes, in_channel =in_channel)
+elif net_name == 'ResNet':
+    Net = ResNet18(num_classes = num_classes, in_channel =in_channel)
+else:
+    raise ValueError('Choose correct model')
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 Net.to(device)
 criterion = nn.CrossEntropyLoss()
