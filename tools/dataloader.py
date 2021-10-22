@@ -64,9 +64,9 @@ def dataloader(data_name, batch_size):
                                  download = True, transform=test_transform)
         class_num= 10
     elif data_name == 'EMNIST':
-        data_train = datasets.EMNIST(root= './DATA', train= True, split = 'bymerge',
+        data_train = datasets.EMNIST(root= './DATA', train= True, split = 'balanced',
                                   download = True, transform=train_transform)
-        data_test = datasets.EMNIST(root= './DATA', train= False, split = 'bymerge',
+        data_test = datasets.EMNIST(root= './DATA', train= False, split = 'balanced',
                                  download = True, transform=test_transform)
         class_num = 47
     else:
