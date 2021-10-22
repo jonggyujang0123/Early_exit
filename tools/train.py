@@ -30,16 +30,19 @@ trainloader, testloader, num_classes, in_channel = dataloader(data_name = data_n
 ## NETWORK LOADER
 if net_name == 'AlexNet':
     Net = AlexNet(num_classes = num_classes, in_channel =in_channel)
+    lr = 0.006
 elif net_name == 'LeNet':
     Net = LeNet(num_classes = num_classes, in_channel =in_channel)
+    lr = 0.001
 elif net_name == 'ResNet':
     Net = ResNet18(num_classes = num_classes, in_channel =in_channel)
+    lr = 0.001
 else:
     raise ValueError('Choose correct model')
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 Net.to(device)
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(Net.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(Net.parameters(), lr=lr)
 
 ## MAIN FUNCTION
 

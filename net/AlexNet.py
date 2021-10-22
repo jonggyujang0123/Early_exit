@@ -40,9 +40,9 @@ class LeNet(nn.Module):
             
     def forward(self,x):
         x = self.net_part1(x)
-        out_1 = self.classifier_1(x)
+        out_1 = self.classifier1(x)
         x = self.net_part2(x)
-        out_2 = self.classifier_2(x)
+        out_2 = self.classifier2(x)
         out_3 = self.net_part3(x)
 
         return out_1, out_2, out_3        
