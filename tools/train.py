@@ -22,7 +22,7 @@ args = parser.parse_args()
 data_name = args.dataset
 net_name = args.model
 
-batch_size=64
+batch_size=256
 
 trainloader, testloader, num_classes, in_channel = dataloader(data_name = data_name,batch_size = batch_size)
 
@@ -33,7 +33,7 @@ if net_name == 'AlexNet':
     lr = 0.006
 elif net_name == 'LeNet':
     Net = LeNet(num_classes = num_classes, in_channel =in_channel)
-    lr = 0.001
+    lr = 0.006
 elif net_name == 'ResNet':
     Net = ResNet18(num_classes = num_classes, in_channel =in_channel)
     lr = 0.001
@@ -43,6 +43,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 Net.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(Net.parameters(), lr=lr)
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 
 ## MAIN FUNCTION
 
@@ -58,9 +59,10 @@ def main():
             loss.backward()
             optimizer.step()
             loss_ep.append(loss.item())
+        scheduler.step()
         if epoch % 20 == 19:
             tqdm.write(f'{epoch}-th epoch loss is {np.mean(loss_ep)}')
-    torch.save(Net, f'./DATA/{data_name}_{net_name}.pth')
+            torch.save(Net.state_dict(), f'./DATA/{data_name}_{net_name}.pth')
     return
     
     

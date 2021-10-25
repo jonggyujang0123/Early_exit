@@ -34,8 +34,6 @@ def dataloader(data_name, batch_size):
         in_channel = 3
     elif data_name == 'MNIST' or data_name == 'EMNIST':
         train_transform = transforms.Compose([transforms.ToTensor(), 
-                                      transforms.RandomHorizontalFlip(),
-                                      transforms.RandomVerticalFlip(),
                                       transforms.Resize(32),
                                       transforms.Normalize((0.485,), (0.225,))
                                       
@@ -52,9 +50,9 @@ def dataloader(data_name, batch_size):
                                  download = True, transform=test_transform)
         class_num = 10
     elif data_name == 'CIFAR100':
-        data_train = datasets.CIFAR10(root= './DATA', train= True,
+        data_train = datasets.CIFAR100(root= './DATA', train= True,
                                   download = True, transform=train_transform)
-        data_test = datasets.CIFAR10(root= './DATA', train= False,
+        data_test = datasets.CIFAR100(root= './DATA', train= False,
                                  download = True, transform=test_transform)
         class_num = 100
     elif data_name == 'MNIST':

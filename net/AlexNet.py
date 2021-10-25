@@ -9,10 +9,12 @@ class LeNet(nn.Module):
         
         self.net_part1 = nn.Sequential(
             nn.Conv2d(in_channel, 5, kernel_size= 5, stride= 1, padding =3),
+            nn.BatchNorm2d(5),
             nn.MaxPool2d(2,2),
             nn.ReLU()) ## 1, 5, 34, 34
         self.classifier1 = nn.Sequential(
             nn.Conv2d(5, 10, 3, 1, padding = 1),
+            nn.BatchNorm2d(10),
             nn.MaxPool2d(2,2),
             nn.ReLU(),
             nn.Flatten(),
@@ -20,21 +22,25 @@ class LeNet(nn.Module):
             )
         self.net_part2 = nn.Sequential(
             nn.Conv2d(5, 10, 5, 1, 3),
+            nn.BatchNorm2d(10),
             nn.MaxPool2d(2,2),
             nn.ReLU()
             )
         self.classifier2 = nn.Sequential(
             nn.Conv2d(10, 20, 5, 1, 1),
+            nn.BatchNorm2d(20),
             nn.MaxPool2d(2,2),
             nn.ReLU(),
             nn.Flatten(),
             nn.Linear(in_features=180, out_features= num_classes))
         self.net_part3 = nn.Sequential(
             nn.Conv2d(10,20,5,1,3),
+            nn.BatchNorm2d(20),
             nn.MaxPool2d(2,2),
             nn.ReLU(),
             nn.Flatten(),
             nn.Linear(in_features=500, out_features= 84),
+            nn.ReLU(),
             nn.Linear(in_features=84, out_features= num_classes)
             )
             
@@ -174,6 +180,7 @@ class AlexNet(nn.Module):
 
         self.net_part1 = nn.Sequential(
           nn.Conv2d(in_channel, 64, kernel_size=5, stride=1, padding=2), 
+          nn.BatchNorm2d(64),
           nn.ReLU(),
           nn.MaxPool2d(kernel_size=3, stride=2), 
           nn.LocalResponseNorm(size=3, alpha=5e-05, beta=0.75),
@@ -183,8 +190,10 @@ class AlexNet(nn.Module):
           nn.MaxPool2d(3, 2), 
           nn.LocalResponseNorm(size=3, alpha=5e-05, beta=0.75),
           nn.Conv2d(64, 32, 3, 1, 1), 
+          nn.BatchNorm2d(32),
           nn.ReLU(),
           nn.Conv2d(32, 32, 3, 1, 1), 
+          nn.BatchNorm2d(32),
           nn.ReLU(),
           nn.MaxPool2d(3, 2), 
           nn.Flatten(),
@@ -192,10 +201,12 @@ class AlexNet(nn.Module):
           )
         self.net_part2 = nn.Sequential(
           nn.Conv2d(64, 96, kernel_size=5, stride=1, padding=2), 
+          nn.BatchNorm2d(96),
           nn.ReLU(),
           nn.MaxPool2d(3, 2), 
           nn.LocalResponseNorm(size=3, alpha=5e-05, beta=0.75),
           nn.Conv2d(96, 192, kernel_size=3, stride=1, padding=1), 
+          nn.BatchNorm2d(192),
           )
         
         self.classifier_2 = nn.Sequential(
@@ -203,6 +214,7 @@ class AlexNet(nn.Module):
           nn.MaxPool2d(3, 2), 
           nn.LocalResponseNorm(size=3, alpha=5e-05, beta=0.75),
           nn.Conv2d(192, 64, kernel_size=3, stride=1, padding=1), 
+          nn.BatchNorm2d(64),
           nn.ReLU(),
           nn.MaxPool2d(3, 2), 
           nn.Flatten(),
@@ -212,8 +224,10 @@ class AlexNet(nn.Module):
         self.net_part3 = nn.Sequential(
           nn.ReLU(),
           nn.Conv2d(192, 128, 3, 1, 1), 
+          nn.BatchNorm2d(128),
           nn.ReLU(),
           nn.Conv2d(128, 128, 3, 1, 1), 
+          nn.BatchNorm2d(128),
           nn.ReLU(),
           nn.MaxPool2d(3, 2),
           nn.Flatten(),
